@@ -18,10 +18,9 @@ bool Field::isTerminalState() const
     return terminalState;
 }
 
-int * getAvailableMoves() 
+vector<int> Field::getAvailableMoves() const
 {
-    int peter[] = {0,0,0,0};
-    return peter;
+    return availableMoves;
 }
 
 Field::Field()

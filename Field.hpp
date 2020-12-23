@@ -1,5 +1,6 @@
 #include<iostream>
 #include<stdlib.h>
+#include<vector>
 #include<random>
 
 #pragma once
@@ -10,12 +11,13 @@ private:
     double reward;
     int type;
     bool terminalState;
-    int availableMoves[4];
+    // initilize all fields with walls against them
+    std::vector<int> availableMoves{0,0,0,0};
 public:
     Field();
     ~Field();
     double getReward() const;
     int getType() const;
     bool isTerminalState() const;
-    int * getAvailableMoves() const;
+    std::vector<int> getAvailableMoves() const;
 };
