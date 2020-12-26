@@ -8,22 +8,31 @@ double Field::getReward() const
     return reward;
 };
 
-int Field::getType() const 
-{
-    return type;
-};
-
 bool Field::isTerminalState() const
 {
     return terminalState;
 }
 
-vector<int> Field::getAvailableMoves() const
+array<int, 4> Field::getAvailableMoves(bool dfs) const
 {
+    if(dfs) { 
+        return {1,1,1,1}
+    }
     return availableMoves;
 }
 
-Field::Field()
+array<int, 2> Field::getCoordinates() const
+{   
+    return coordinates_;
+}
+
+void Field::removeWall(int wall)
+{
+    availableMoves[wall] = 1;
+}
+
+Field::Field(array<int, 2> coordinates)
+    : coordinates_(coordinates), availableMoves({0,0,0,0})
 {
     // uniform_int_distribution<double> urd(-1.0, 1.0);
     // cout << rand() << "\n";

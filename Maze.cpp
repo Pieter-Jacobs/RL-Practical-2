@@ -1,21 +1,23 @@
-#include<vector>
 #include "Maze.hpp"
-
 using namespace std;
 
 
 void Maze::initializeMaze() 
 { 
-    // for(int i = 0; i < height_; i++) {
-    //     vector<Field*> row;
-    //     for(int j = 0; j < width_; j++) {
-    //         row.push_back(new Field());
-    //         row[j]->getReward();
-    //     }
-    //     grid.push_back(row);
-    // }
+    for(int i = 0; i < height_; i++) {
+        vector<Field*> row;
+        for(int j = 0; j < width_; j++) {
+            array<int, 2> coordinates = {i,j};
+            row.push_back(new Field(coordinates));
+            }
+        grid.push_back(row);
+    }
 }
 
+Field* Maze::getField(array<int,2> coordinates) 
+{
+    return maze[coordinates[0]][coordinates[1]];
+}
 Maze::Maze(size_t width, size_t height)
     : width_(width), height_(height)
 {

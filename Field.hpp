@@ -1,23 +1,24 @@
 #include<iostream>
 #include<stdlib.h>
-#include<vector>
 #include<random>
+#include<array>
 
 #pragma once
 
 class Field
 {
 private:
-    double reward;
-    int type;
-    bool terminalState;
+    std::array<int, 2> coordinates_;
     // initilize all fields with walls against them
-    std::vector<int> availableMoves{0,0,0,0};
+    std::array<int, 4> availableMoves;
+    double reward;
+    bool terminalState;
 public:
-    Field();
+    Field(std::array<int, 2> coordinates);
     ~Field();
+    std::array<int, 2> getCoordinates() const;
+    std::array<int, 4> getAvailableMoves(bool dfs) const;
     double getReward() const;
-    int getType() const;
     bool isTerminalState() const;
-    std::vector<int> getAvailableMoves() const;
+    void removeWall(int wall);
 };
