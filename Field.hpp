@@ -1,9 +1,9 @@
+#pragma once
+
 #include<iostream>
 #include<stdlib.h>
 #include<random>
 #include<array>
-
-#pragma once
 
 class Field
 {
@@ -12,13 +12,13 @@ private:
     // initilize all fields with walls against them
     std::array<int, 4> availableMoves;
     double reward;
-    bool terminalState;
+    bool terminalState = false;
 public:
-    Field(std::array<int, 2> coordinates);
+    Field(std::array<int, 2> coordinates, size_t mazeWidth, size_t mazeHeight);
     ~Field();
     std::array<int, 2> getCoordinates() const;
-    std::array<int, 4> getAvailableMoves(bool dfs) const;
+    std::array<int, 4> getAvailableMoves() const;
     double getReward() const;
     bool isTerminalState() const;
-    void removeWall(int wall);
+    void removeWall(int wall, Field* field);
 };

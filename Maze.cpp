@@ -8,10 +8,18 @@ void Maze::initializeMaze()
         vector<Field*> row;
         for(int j = 0; j < width_; j++) {
             array<int, 2> coordinates = {i,j};
-            row.push_back(new Field(coordinates));
+            row.push_back(new Field(coordinates, width_, height_));
             }
-        grid.push_back(row);
+        maze.push_back(row);
     }
+}
+
+size_t Maze::getMaxX() const {
+    return width_; 
+}
+
+size_t Maze::getMaxY() const {
+    return height_; 
 }
 
 Field* Maze::getField(array<int,2> coordinates) 
