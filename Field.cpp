@@ -32,16 +32,16 @@ Field::Field(array<int, 2> coordinates, size_t mazeWidth, size_t mazeHeight)
     : coordinates_(coordinates), availableMoves({0,0,0,0})
 {
     // Create edges of the maze
-    if(coordinates[1] - 1 < 0) {
+    if(coordinates[0] - 1 < 0) {
         availableMoves[0] = -1;
     }
-    if(coordinates[0] + 1 > (mazeWidth-1)) {
+    if(coordinates[1] + 1 > (mazeWidth-1)) {
         availableMoves[1] = -1;
     }
-    if(coordinates[1] + 1 > (mazeHeight-1)) {
+    if(coordinates[0] + 1 > (mazeHeight-1)) {
         availableMoves[2] = -1;
     }
-    if(coordinates[0] - 1 < 0) {
+    if(coordinates[1] - 1 < 0) {
         availableMoves[3] = -1;
     }
 

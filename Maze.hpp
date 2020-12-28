@@ -20,5 +20,5 @@ class Maze
         Field* getField(std::array<int,2> coordinates);
         size_t getMaxX() const;
         size_t getMaxY() const;
-        // void print();
+        void print();
 };

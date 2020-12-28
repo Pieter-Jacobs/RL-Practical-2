@@ -22,19 +22,19 @@ array<int,2> Agent::getUpdatedCoordinates(int move) {
     {
         // move up
         case 0:
-            coordinates[1] -= 1;
+            coordinates[0] -= 1;
             break;
         // move right
         case 1:
-            coordinates[0] += 1;
+            coordinates[1] += 1;
             break;
         // move down
         case 2: 
-            coordinates[1] += 1;
+            coordinates[0] += 1;
             break;
         // move left
         case 3: 
-            coordinates[0] -= 1;
+            coordinates[1] -= 1;
             break;
         default:
             break;
@@ -92,6 +92,7 @@ void Agent::DFS()
 void Agent::move(int move)
 {
     array<int, 2> coordinates = getUpdatedCoordinates(move);
+    cout << "moved to: " << coordinates[0] << " " << coordinates[1] << "\n";
     currentField_ = maze_->getField(coordinates);
 }
 
