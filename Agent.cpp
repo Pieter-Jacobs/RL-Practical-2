@@ -44,27 +44,47 @@ array<int,2> Agent::getUpdatedCoordinates(int move) {
 
 void Agent::DFS() 
 {
+    // Initial field is marked as visited and pushed to the stack
     vector<Field*> visited;
+    stack<Field*> stack;
+    vector<int> possibleMoves;
     visited.push_back(currentField_);
-    while (!visited.empty() && !currentField_->isTerminalState())
+    stack.push(currentField_);
+    while (!stack.empty() && !currentField_->isTerminalState())
     {
+        // Make the top field on the stack the current field
+        currentField_ = stack.top();
         cout << currentField_->getCoordinates()[0] << " " << currentField_->getCoordinates()[1] << "\n";
-        visited.pop_back();
+        stack.pop();
+
         array<int,2> coordinates = currentField_->getCoordinates();
-        vector<int> possibleMoves;
+        // Check what neighbouring fields can be moved to 
         for(int i = 0; i < 4; i++) {
             // if the new field is not visited yet and the move does not get the agent
             // outside of the grid, the move is possible
             if(currentField_->getAvailableMoves()[i] != -1 &&
             (find(visited.begin(), visited.end(), maze_->getField(getUpdatedCoordinates(i))) 
             == visited.end())) {
+                cout << "move possible:" << i << "\n";
                 possibleMoves.push_back(i);
             }
         }
-        int move_ = possibleMoves[rand()%possibleMoves.size()];
-        // cout << move_;
-        move(move_);
-        visited.push_back(currentField_);
+        // If any moves can be made, we push the field to the stack
+        // and move to a random neighbour
+        if(!possibleMoves.empty()) {
+            stack.push(currentField_);
+            int move_ = possibleMoves[rand()%possibleMoves.size()];
+            currentField_->removeWall(move_);
+            maze_->getField(getUpdatedCoordinates(move_))->removeWall((move_+2)%4);
+            // Remove the wall between the current field and the field that 
+            // the agent is going to move to
+            cout << "move: " << move_ << "\n";
+            // Move to the neighbour and mark it as visited and push it to the stack
+            move(move_);
+            visited.push_back(currentField_);
+            stack.push(currentField_);
+            possibleMoves.clear();
+        }
     }
     
 }

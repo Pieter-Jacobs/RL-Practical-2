@@ -20,5 +20,5 @@ public:
     std::array<int, 4> getAvailableMoves() const;
     double getReward() const;
     bool isTerminalState() const;
-    void removeWall(int wall, Field* field);
+    void removeWall(int wall);
 };

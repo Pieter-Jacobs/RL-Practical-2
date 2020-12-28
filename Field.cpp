@@ -23,28 +23,31 @@ array<int, 2> Field::getCoordinates() const
     return coordinates_;
 }
 
-void Field::removeWall(int wall, Field* field)
+void Field::removeWall(int wall)
 {
     availableMoves[wall] = 1;
-    // Remove wall from adjacent field
-    field->getAvailableMoves()[(wall + 2) % 4] = 1;
 }
 
 Field::Field(array<int, 2> coordinates, size_t mazeWidth, size_t mazeHeight)
     : coordinates_(coordinates), availableMoves({0,0,0,0})
 {
     // Create edges of the maze
-    if(coordinates[0] - 1 < 0) {
+    if(coordinates[1] - 1 < 0) {
         availableMoves[0] = -1;
     }
-    if(coordinates[0] + 1 > mazeWidth) {
+    if(coordinates[0] + 1 > (mazeWidth-1)) {
         availableMoves[1] = -1;
     }
-    if(coordinates[1] + 1 > mazeHeight) {
+    if(coordinates[1] + 1 > (mazeHeight-1)) {
         availableMoves[2] = -1;
     }
-    if(coordinates[1] - 1 < 0) {
+    if(coordinates[0] - 1 < 0) {
         availableMoves[3] = -1;
+    }
+
+    // If the cell is in the bottom right of the maze, it is the terminal state.
+    if(coordinates[0] == (mazeWidth-1) && coordinates[1] == (mazeHeight-1)) {
+        terminalState = true;
     }
     // uniform_int_distribution<double> urd(-1.0, 1.0);
     // cout << rand() << "\n";
