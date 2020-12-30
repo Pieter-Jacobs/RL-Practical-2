@@ -15,7 +15,6 @@ Agent::~Agent()
 {
 }
 
-
 array<int,2> Agent::getUpdatedCoordinates(int move) {
     array<int, 2> coordinates = currentField_->getCoordinates();
     switch (move)
@@ -62,7 +61,9 @@ void Agent::DFS()
         for(int i = 0; i < 4; i++) {
             // if the new field is not visited yet and the move does not get the agent
             // outside of the grid, the move is possible
-            if(currentField_->getAvailableMoves()[i] != -1 &&
+            cout << !isOutOfBounds(getUpdatedCoordinates(i));
+            if(/*currentField_getAvailableMoves()[i] != -1*/ 
+            !isOutOfBounds(getUpdatedCoordinates(i)) &&
             (find(visited.begin(), visited.end(), maze_->getField(getUpdatedCoordinates(i))) 
             == visited.end())) {
                 cout << "move possible:" << i << "\n";
@@ -74,10 +75,11 @@ void Agent::DFS()
         if(!possibleMoves.empty()) {
             stack.push(currentField_);
             int move_ = possibleMoves[rand()%possibleMoves.size()];
-            currentField_->removeWall(move_);
-            maze_->getField(getUpdatedCoordinates(move_))->removeWall((move_+2)%4);
-            // Remove the wall between the current field and the field that 
-            // the agent is going to move to
+            // Remove the wall on the field the agent is moving to
+            // currentField_->removeWall(move_);
+            // maze_->getField(getUpdatedCoordinates(move_))->removeWall(move_+2%4);
+            maze_->getField(getUpdatedCoordinates(move_))->removeWall();
+            
             cout << "move: " << move_ << "\n";
             // Move to the neighbour and mark it as visited and push it to the stack
             move(move_);
@@ -85,14 +87,20 @@ void Agent::DFS()
             stack.push(currentField_);
             possibleMoves.clear();
         }
+    }    
+}
+
+bool Agent::isOutOfBounds(array<int,2> coordinates) {
+    if(coordinates[0] >= 0 && coordinates[0] < maze_->getHeight() 
+    && coordinates[1] >= 0 && coordinates[1] < maze_->getWidth()){
+        return 0;
     }
-    
+    return 1;
 }
 
 void Agent::move(int move)
 {
-    array<int, 2> coordinates = getUpdatedCoordinates(move);
+    array<int, 2> coordinates = getUpdatedCoordinates(move);   
     cout << "moved to: " << coordinates[0] << " " << coordinates[1] << "\n";
     currentField_ = maze_->getField(coordinates);
 }
-

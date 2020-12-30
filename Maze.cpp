@@ -14,11 +14,11 @@ void Maze::initializeMaze()
     }
 }
 
-size_t Maze::getMaxX() const {
+size_t Maze::getWidth() const {
     return width_; 
 }
 
-size_t Maze::getMaxY() const {
+size_t Maze::getHeight() const {
     return height_; 
 }
 
@@ -39,9 +39,13 @@ Maze::~Maze()
 void Maze::print() {
     for(int i = 0; i < height_; i++) {
         for(int q = 0; q < width_; q++) {
-            array<int,4> moves = maze[i][q]->getAvailableMoves();
-            cout << "["<< i << "," << q << "]{" << moves[0] << "," << moves[1] << "," << moves[2] << "," << moves[3] << "}\n";
+           if(getField({i,q})->isWall()){
+               cout << "#";
+           } else {
+               cout << ".";
+           }
         }
+        cout << "\n";
     }
     // for(int i = 0; i < height_; i++) {
     //     for(int q = 0; q < 3; q++) {

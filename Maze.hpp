@@ -18,7 +18,7 @@ class Maze
         Maze(size_t width, size_t height);
         ~Maze();
         Field* getField(std::array<int,2> coordinates);
-        size_t getMaxX() const;
-        size_t getMaxY() const;
+        size_t getWidth() const;
+        size_t getHeight() const;
         void print();
 };
