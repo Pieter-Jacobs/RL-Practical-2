@@ -61,9 +61,8 @@ void Agent::DFS()
         for(int i = 0; i < 4; i++) {
             // if the new field is not visited yet and the move does not get the agent
             // outside of the grid, the move is possible
-            cout << !isOutOfBounds(getUpdatedCoordinates(i));
-            if(/*currentField_getAvailableMoves()[i] != -1*/ 
-            !isOutOfBounds(getUpdatedCoordinates(i)) &&
+            if(currentField_->getWalls()[i] != -1
+            /*!isOutOfBounds(getUpdatedCoordinates(i)) */ &&
             (find(visited.begin(), visited.end(), maze_->getField(getUpdatedCoordinates(i))) 
             == visited.end())) {
                 cout << "move possible:" << i << "\n";
@@ -76,9 +75,9 @@ void Agent::DFS()
             stack.push(currentField_);
             int move_ = possibleMoves[rand()%possibleMoves.size()];
             // Remove the wall on the field the agent is moving to
-            // currentField_->removeWall(move_);
-            // maze_->getField(getUpdatedCoordinates(move_))->removeWall(move_+2%4);
-            maze_->getField(getUpdatedCoordinates(move_))->removeWall();
+            currentField_->removeWall(move_);
+            maze_->getField(getUpdatedCoordinates(move_))->removeWall((move_+2)%4);
+            // maze_->getField(getUpdatedCoordinates(move_))->removeWall();
             
             cout << "move: " << move_ << "\n";
             // Move to the neighbour and mark it as visited and push it to the stack

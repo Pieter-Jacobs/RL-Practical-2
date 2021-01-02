@@ -1,7 +1,6 @@
 #include "Maze.hpp"
 using namespace std;
 
-
 void Maze::initializeMaze() 
 { 
     for(int i = 0; i < height_; i++) {
@@ -39,46 +38,13 @@ Maze::~Maze()
 void Maze::print() {
     for(int i = 0; i < height_; i++) {
         for(int q = 0; q < width_; q++) {
-           if(getField({i,q})->isWall()){
-               cout << "#";
-           } else {
-               cout << ".";
-           }
+            cout << "{";
+            for(int j = 0; j < getField({i,q})->getWalls().size(); j++) {
+                cout << getField({i,q})->getWalls()[j];
+                cout << ",";
+            }
+            cout << "}";
+            cout << "\n";
         }
-        cout << "\n";
     }
-    // for(int i = 0; i < height_; i++) {
-    //     for(int q = 0; q < 3; q++) {
-    //         for(int j = 0; j < width_; j++) {
-    //             array<int,4> moves = maze[i][j]->getAvailableMoves();
-    //             if(q==0 && (moves[0] == -1 || moves[0] == 0)) {
-    //                 cout << "---";
-    //             } else if(q==0 && moves[0] == 1) {
-    //                 cout << "   ";
-    //             }
-    //             if(q==1 && (moves[3] == -1 || moves[3] == 0)) {
-    //                 cout << "|";
-    //             } else if(q==1 && moves[3] == 1) {
-    //                 cout << " ";
-    //             }
-    //             if(q==1){
-    //                 cout << " ";
-    //             }
-    //             if(q==1 && (moves[1] == -1 || moves[1] == 0)) {
-    //                 cout << "|";
-    //             } else if(q==1 && moves[1] == 1) {
-    //                 cout << " ";
-    //             }
-
-    //             if(q==2 && (moves[2] == -1 || moves[2] == 0)) {
-    //                 cout << "---";
-    //             } else if(q==0 && moves[0] == 1) {
-    //                 cout << "   ";
-    //             }
-    //             if(j == width_-1) {
-    //                 cout << "\n";
-    //             }
-    //         }
-    //     }
-    // }
 }
