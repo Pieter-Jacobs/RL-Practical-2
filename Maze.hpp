@@ -21,4 +21,5 @@ class Maze
         size_t getWidth() const;
         size_t getHeight() const;
         void print();
+        void printActions();
 };

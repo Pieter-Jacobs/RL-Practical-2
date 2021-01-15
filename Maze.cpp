@@ -47,4 +47,34 @@ void Maze::print() {
             cout << "\n";
         }
     }
+    cout << "___________\n";
+    for (int i = 0; i < height_; i++) {
+        cout << '|';
+        for (int q = 0; q < width_; q++) {
+            int check = 0;
+            for (int j = 4; j != 0; j--) {
+                if (j == 2 && (getField({ i,q })->getWalls()[j] != 0 || i == height_ - 1)) {
+                    cout << "_";
+                    check = 1;
+                }
+                if (j == 1 && getField({ i,q })->getWalls()[j] != 0) {
+                    cout << "|";
+                    check = 1;
+                }
+            }
+            if (!check) {
+                cout << ' ';
+            }
+        }
+        cout << "|";
+        cout << "\n";
+    }
+}
+
+void Maze::printActions() {
+    for (int i = 0; i < height_; i++) {
+        for (int q = 0; q < width_; q++) {
+            getField({ i,q })->printActions();
+        }
+    }
 }
