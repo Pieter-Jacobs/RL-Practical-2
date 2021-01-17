@@ -15,6 +15,11 @@ Agent::~Agent()
 {
 }
 
+void Agent::printOptimalSteps()
+{
+    cout << "Optimal amount of steps:" << optimal << '\n';
+}
+
 array<int,2> Agent::getUpdatedCoordinates(int move) {
     array<int, 2> coordinates = currentField_->getCoordinates();
     switch (move)
@@ -53,7 +58,6 @@ void Agent::DFS()
     {
         // Make the top field on the stack the current field
         currentField_ = stack.top();
-        cout << currentField_->getCoordinates()[0] << " " << currentField_->getCoordinates()[1] << "\n";
         stack.pop();
 
         array<int,2> coordinates = currentField_->getCoordinates();
@@ -65,7 +69,6 @@ void Agent::DFS()
             /*!isOutOfBounds(getUpdatedCoordinates(i)) */ &&
             (find(visited.begin(), visited.end(), maze_->getField(getUpdatedCoordinates(i))) 
             == visited.end())) {
-                cout << "move possible:" << i << "\n";
                 possibleMoves.push_back(i);
             }
         }
@@ -79,7 +82,6 @@ void Agent::DFS()
             maze_->getField(getUpdatedCoordinates(move_))->removeWall((move_+2)%4);
             // maze_->getField(getUpdatedCoordinates(move_))->removeWall();
             
-            cout << "move: " << move_ << "\n";
             // Move to the neighbour and mark it as visited and push it to the stack
             move(move_);
             visited.push_back(currentField_);
@@ -100,6 +102,10 @@ bool Agent::isOutOfBounds(array<int,2> coordinates) {
 void Agent::move(int move)
 {
     array<int, 2> coordinates = getUpdatedCoordinates(move);   
-    cout << "moved to: " << coordinates[0] << " " << coordinates[1] << "\n";
     currentField_ = maze_->getField(coordinates);
+    if (currentField_->isTerminalState())
+        endFound = true;
+
+    if (!endFound)
+        ++optimal;
 }

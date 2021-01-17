@@ -13,6 +13,7 @@ class Agent
         Field* currentField_;
         Maze* maze_;
         double score;
+        bool endFound = false;
     public:
         Agent();
         Agent(Maze* maze, Field* currentField);
@@ -22,4 +23,6 @@ class Agent
         void chooseMoveRandom(std::vector<int> possibleMoves);
         void move(int move);
         bool isOutOfBounds(std::array<int,2> coordinates);
+        size_t optimal = 0;
+        void printOptimalSteps();
 };

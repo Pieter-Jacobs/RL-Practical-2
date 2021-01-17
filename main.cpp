@@ -4,12 +4,12 @@ using namespace std;
 
 int main() {
     srand(time(NULL));
-    Maze* maze = new Maze(11,11);
+    Maze* maze = new Maze(300,300);
     Agent agent = Agent(maze, maze->getField({0,0}));
     agent.DFS();
-    AgentSarsa sarsa = AgentSarsa(maze, 8000);
     maze->print();
+    AgentSarsa sarsa = AgentSarsa(maze, 8000);
     sarsa.Sarsa();
-    //maze->printActions();
+    agent.printOptimalSteps();
     return 0;
 }

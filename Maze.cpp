@@ -38,15 +38,16 @@ Maze::~Maze()
 void Maze::print() {
     for(int i = 0; i < height_; i++) {
         for(int q = 0; q < width_; q++) {
-            cout << "{";
+            //cout << "{";
             for(int j = 0; j < getField({i,q})->getWalls().size(); j++) {
-                cout << getField({i,q})->getWalls()[j];
-                cout << ",";
+                //cout << getField({i,q})->getWalls()[j];
+                getField({ i,q })->initializeActions();
+                //cout << ",";
             }
-            cout << "}";
-            cout << "\n";
+            //cout << "}";
+            //cout << "\n";
         }
-    }
+    }/*
     cout << "___________\n";
     for (int i = 0; i < height_; i++) {
         cout << '|';
@@ -68,7 +69,7 @@ void Maze::print() {
         }
         cout << "|";
         cout << "\n";
-    }
+    }*/
 }
 
 void Maze::printActions() {
