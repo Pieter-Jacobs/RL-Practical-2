@@ -15,6 +15,10 @@ Agent::~Agent()
 {
 }
 
+Maze* Agent::getMaze() const {
+    return maze_;
+}
+
 array<int,2> Agent::getUpdatedCoordinates(int move) {
     array<int, 2> coordinates = currentField_->getCoordinates();
     switch (move)

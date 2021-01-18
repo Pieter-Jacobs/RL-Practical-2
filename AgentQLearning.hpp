@@ -1,19 +1,17 @@
 #include "Agent.hpp";
 
 
-class AgentQLearning : Agent
+class AgentQLearning : public Agent
 {
 private:
-    /* data */
+    std::vector<std::vector<std::vector<double>>> qTable;
+    double gamma;
+    // /* data */
 public:
     AgentQLearning(/* args */);
     ~AgentQLearning();
+    std::vector<int> determinePossibleMoves();
+    void selectAction();
+    void updateQTable();
+    double calculateQValue(int move, Field* state);
 };
-
-AgentQLearning::AgentQLearning(/* args */)
-{
-}
-
-AgentQLearning::~AgentQLearning()
-{
-}
