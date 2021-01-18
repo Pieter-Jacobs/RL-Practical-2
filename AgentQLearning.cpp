@@ -45,8 +45,9 @@ void AgentQLearning::updateQTable(int move) {
 }
 
 double AgentQLearning::calculateQValue(int move, Field* newState) {
+    array<int,2> coordinates = 
     for(int i = 0; i < 4; i++) {    
-        qTable[coordinates[0]][coordinates[1]][move] += alpha*(-1) + gamma * ();
+        qTable[coordinates[0]][coordinates[1]][i] += alpha*(-1) + gamma * ();
     }
 }
 
