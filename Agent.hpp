@@ -10,9 +10,10 @@
 class Agent
 {
     private:
-        Field* currentField_;
         double score;
+    protected: 
         Maze* maze_;
+        Field* currentField_;
     public:
         Agent();
         Agent(Maze* maze, Field* currentField);
