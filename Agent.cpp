@@ -49,7 +49,7 @@ void Agent::DFS()
     vector<int> possibleMoves;
     visited.push_back(currentField_);
     stack.push(currentField_);
-    while (!stack.empty() && !currentField_->isTerminalState())
+    while (!stack.empty())
     {
         // Make the top field on the stack the current field
         currentField_ = stack.top();
