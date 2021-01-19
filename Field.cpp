@@ -28,15 +28,6 @@ array<double, 4> Field::getActions()
     return actions_;
 }
 
-void Field::initializeActions()
-{
-    for (size_t i = 0; i < 4; ++i) {
-        if (walls[i] != 0) {
-            actions_[i] = -100000000;
-        }
-    }
-}
-
 void Field::printActions()
 {
     cout << '[';
@@ -62,19 +53,15 @@ Field::Field(array<int, 2> coordinates, size_t mazeWidth, size_t mazeHeight)
     // Create edges of the maze
     if(coordinates[0] - 1 < 0) {
         walls[0] = -1;
-        actions_[0] = -100000000;
     }
     if(coordinates[1] + 1 > (mazeWidth-1)) {
         walls[1] = -1;
-        actions_[1] = -100000000;
     }
     if(coordinates[0] + 1 > (mazeHeight-1)) {
         walls[2] = -1;
-        actions_[2] = -100000000;
     }
     if(coordinates[1] - 1 < 0) {
         walls[3] = -1;
-        actions_[3] = -100000000;
     }
     
     // If the cell is in the bottom right of the maze, it is the terminal state.

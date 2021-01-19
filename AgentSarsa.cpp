@@ -7,23 +7,26 @@ AgentSarsa::AgentSarsa()
 	AgentSarsa::score= 0;
 }
 
-AgentSarsa::AgentSarsa(Maze* maze_, size_t episode) 
+AgentSarsa::AgentSarsa(Maze* maze_, size_t episodeMax) 
 {
 	AgentSarsa::maze_ = maze_;
 	AgentSarsa::score = 0;
-	AgentSarsa::episode = episode;
+	AgentSarsa::episodeMax = episodeMax;
 	AgentSarsa::gamma = 1;
 	AgentSarsa::alpha = 0.5;
-	AgentSarsa::epsilon = 0.1;
+	AgentSarsa::epsilon = 1.0;
+	AgentSarsa::episode = 0.99;
+	AgentSarsa::temp = 10.0;						//1.0 werkt goed voor 10x10, 10.0 voor 100x100, onder 1.0 komen problemen en soms met 1.0 bij 100x100
+	AgentSarsa::randomCount = 0;
 }
 
 void AgentSarsa::Sarsa()
 {
-	for (size_t i = 0; i != episode; ++i) {							//for each episode
+	for (episode = 1; episode != episodeMax + 1; ++episode) {							//for each episode
 		state_ = maze_->getField({ 0,0 });							//initialize S
-		state_->initializeActions();
 		size_t step = 0;
 		chooseActionEpsilon(false);								//choose action from state based on policy
+		randomCount = 0;
 		while (!state_->isTerminalState()) {
 			takeAction();											//take the action that was chosen, keep track of new state and reward
 			chooseActionEpsilon(true);							//choose new action from new state based on policy
@@ -31,8 +34,20 @@ void AgentSarsa::Sarsa()
 			state_ = newState_;
 			action_ = newAction_;
 			++step;
+			if(state_ == maze_->getField({ 0,0 }))
+				break;
 		}
-		cout << "Amount of steps:" << step << '\n';
+		epsilon = 1.0 - 0.01 * episode;
+		if (epsilon < 0)
+			epsilon = 0;
+
+		if (temp != 1)
+			temp -= 0.1;
+
+		if (state_->isTerminalState())
+			cout << "End reached!\n";
+		cout << "Amount of steps: " << step << '\n';
+		//cout << "Amount of random steps: " << randomCount << '\n';		//The amount of steps the epsilon greedy algorithm explored
 	}
 }
 
@@ -42,15 +57,13 @@ void AgentSarsa::chooseActionEpsilon(bool newAction)		//the exploration strategy
 	double actionValue = 0;
 
 	size_t actionNumber = 0;
-	size_t chance = 1 / epsilon;
-
 	std::array<double, 4> actionList = newAction ? newState_->getActions() : state_->getActions();
-	if (rand() % chance == 0) {				//epsilon Greedy
+	double randomNumber = (double)rand() / RAND_MAX;				//number between 0 and 1
+
+	if (randomNumber <= epsilon) {				//epsilon Greedy
 		size_t i = rand() % 4;
-		while (actionList[i] == -100000000) {
-			i = rand() % 4;
-		}
 		actionNumber = i;
+		++randomCount;
 	}
 	else
 	{
@@ -67,7 +80,6 @@ void AgentSarsa::chooseActionEpsilon(bool newAction)		//the exploration strategy
 			}
 		}
 	}
-	//cout << actionNumber << "\n";
 	if (newAction) {
 		newAction_ = actionNumber;
 	} else {
@@ -79,42 +91,39 @@ void AgentSarsa::chooseActionBoltzmann(bool newAction)
 {
 	std::array<double, 4> probabilities = { };
 	std::array<double, 4> actionList = newAction ? newState_->getActions() : state_->getActions();
-	double temp = 10;
 	for (size_t i = 0; i != 4; ++i) {						//calculate the probabilities
-		if (actionList[i] == -100000000) {
-			probabilities[i] = 0;
+		double numerator = exp(actionList[i] / temp);		//e^(Q(s,a)/T)
+		double denominator = 0;
+		for (size_t j = 0; j != 4; ++j) {
+			denominator += exp(actionList[j] / temp);
 		}
-		else {
-			double numerator = exp(actionList[i] / temp);		//e^(Q(s,a)/T)
-			double denominator = 0;
+		/*if (denominator == 0) {									// Hiermee kan je de Q(s,a) zien wanneer het mis gaat
+			cout << "Numerator: " << numerator << '\n';
+			cout << "Denominator: " << denominator << '\n';
+			cout << "Temperature: " << temp << '\n';
 			for (size_t j = 0; j != 4; ++j) {
-				if (actionList[j] != -100000000)
-					denominator += exp(actionList[j] / temp);
+				cout << actionList[j] << '\n';
 			}
-			probabilities[i] = numerator / denominator;
-		}
-	}
-	double randomNumber = rand() % 1000 + 1;				//number between 1 and 1000
-	double check = 0;
-	size_t actionNumber = 0;
-	for (actionNumber = 0; actionNumber != 4; ++actionNumber) {
-		check += probabilities[actionNumber] * 1000;
-		if (check > randomNumber)
-			break;
-	}
+		}*/
+		probabilities[i] = numerator / denominator;
 
-	if (actionNumber == 4){
-		for (size_t i = 3; i != 0; i--) {
-			if (probabilities[i] != 0) {
-				actionNumber = i;
-				break;
-			}
-		}
+	}
+	double randomNumber = (double) rand() / RAND_MAX;				//number between 0 and 1
+	size_t actionNumber = 0;
+	if (randomNumber < probabilities[0]) {
+		actionNumber = 0;
+	} else if(randomNumber < probabilities[0] + probabilities[1]) {
+		actionNumber = 1;
+	}
+	else if (randomNumber < probabilities[0] + probabilities[1] + probabilities[2]) {
+		actionNumber = 2;
+	}
+	else {
+		actionNumber = 3;
 	}
 
 	if (newAction) {
 		newAction_ = actionNumber;
-		//cout << probabilities[newAction_] << '\n';
 	} else {
 		action_ = actionNumber;
 	}
@@ -127,25 +136,36 @@ void AgentSarsa::takeAction()
 	{
 		// move up
 	case 0:
-		coordinates[0] -= 1;
+		if(!state_->getWalls()[0])
+			coordinates[0] -= 1;
 		break;
 		// move right
 	case 1:
-		coordinates[1] += 1;
+		if (!state_->getWalls()[1])
+			coordinates[1] += 1;
 		break;
 		// move down
 	case 2:
-		coordinates[0] += 1;
+		if (!state_->getWalls()[2])
+			coordinates[0] += 1;
 		break;
 		// move left
 	case 3:
-		coordinates[1] -= 1;
+		if (!state_->getWalls()[3])
+			coordinates[1] -= 1;
 		break;
 	default:
 		break;
 	}
 	newState_ = maze_->getField(coordinates);
 	reward_ = newState_->getReward();
+
+	if (newState_ == state_) {
+		newState_ = maze_->getField({ 0,0 });
+		reward_ = -5;
+	}
+	
+		
 }
 
 void AgentSarsa::updateValue()

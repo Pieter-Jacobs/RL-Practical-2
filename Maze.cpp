@@ -41,7 +41,6 @@ void Maze::print() {
             //cout << "{";
             for(int j = 0; j < getField({i,q})->getWalls().size(); j++) {
                 //cout << getField({i,q})->getWalls()[j];
-                getField({ i,q })->initializeActions();
                 //cout << ",";
             }
             //cout << "}";

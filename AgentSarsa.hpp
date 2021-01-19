@@ -21,7 +21,10 @@ private:
     double alpha;           //stepsize
     double gamma;           //stepsize
     size_t episode;
+    size_t episodeMax;
     double epsilon;
+    double temp;      //temperature for boltzmann exploration
+    size_t randomCount;
 
     void chooseActionEpsilon(bool newAction);
     void chooseActionBoltzmann(bool newAction);
@@ -30,7 +33,7 @@ private:
 
 public:
     AgentSarsa();
-    AgentSarsa(Maze* maze_, size_t episode);
+    AgentSarsa(Maze* maze_, size_t episodeMax);
     void Sarsa();
 
 };

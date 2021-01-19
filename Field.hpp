@@ -24,6 +24,5 @@ public:
     double getReward() const;
     bool isTerminalState() const;
     void removeWall(int move);
-    void initializeActions();
     void printActions();
 };
