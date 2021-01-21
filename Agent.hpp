@@ -17,11 +17,8 @@ class Agent
     public:
         Agent();
         Agent(Maze* maze, Field* currentField);
-        ~Agent();
         Maze* getMaze() const;
-        void DFS();
         std::array<int,2> getUpdatedCoordinates(int move);
-        void chooseMoveRandom(std::vector<int> possibleMoves);
+        std::array<int,2> getUpdatedCoordinates(std::array<int,2> coordinates, int move);
         void move(int move);
-        bool isOutOfBounds(std::array<int,2> coordinates);
 };

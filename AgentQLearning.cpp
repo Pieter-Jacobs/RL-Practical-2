@@ -92,35 +92,6 @@ int AgentQLearning::getQlearningMove(vector<int> availableMoves) {
     return bestMove;
 }
 
-void AgentQLearning::updateQTable(array<int,2> prevCoordinates, int move) {
-    // Q(s,a) <- Q(s,a) + a *(R + y*max(Q(s', a)) - Q(s,a))
-    Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates, move)); 
-    // cout << alpha*(getReward(nextState)
-    // +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]) << "\n";
-    qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
-    +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]);
-}
-
-double AgentQLearning::getReward(Field* state) {
-    if(state->isTerminalState()) {
-        return 100;
-    }
-    return -1;
-}
-
-// double AgentQLearning::calculateFutureReward(Field* nextState) {
-//     vector<int> availableMoves = getAvailableMoves(nextState);
-//     array<int,2> coordinates = nextState->getCoordinates();
-//     double highestReward = getReward(maze_->getField(getUpdatedCoordinates(coordinates,availableMoves[0])));
-//     for(int i = 1; i < availableMoves.size(); i++) {  
-//         double reward = getReward(maze_->getField(getUpdatedCoordinates(coordinates,availableMoves[i])));  
-//         if(reward > highestReward) {
-//             highestReward = reward;
-//         }
-//     }
-//     return highestReward;
-// }
-
 double AgentQLearning::calculateFutureReward(Field* nextState) {
     vector<int> availableMoves = getAvailableMoves(nextState);
     array<int,2> coordinates = nextState->getCoordinates();
@@ -135,31 +106,20 @@ double AgentQLearning::calculateFutureReward(Field* nextState) {
     return highestReward;
 }
 
-int AgentQLearning::getRandomMove(vector<int> availableMoves) {
-    return availableMoves[rand()%availableMoves.size()];
+void AgentQLearning::updateQTable(array<int,2> prevCoordinates, int move) {
+    // Q(s,a) <- Q(s,a) + a *(R + y*max(Q(s', a)) - Q(s,a))
+    Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates, move)); 
+    qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
+    +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]);
 }
 
-array<int,2> AgentQLearning::getUpdatedCoordinates(array<int,2> coordinates, int move) {
-    switch (move)
-    {
-        // move up
-        case 0:
-            coordinates[0] -= 1;
-            break;
-        // move right
-        case 1:
-            coordinates[1] += 1;
-            break;
-        // move down
-        case 2: 
-            coordinates[0] += 1;
-            break;
-        // move left
-        case 3: 
-            coordinates[1] -= 1;
-            break;
-        default:
-            break;
+double AgentQLearning::getReward(Field* state) {
+    if(state->isTerminalState()) {
+        return 100;
     }
-    return coordinates;
+    return -1;
+}
+
+int AgentQLearning::getRandomMove(vector<int> availableMoves) {
+    return availableMoves[rand()%availableMoves.size()];
 }
