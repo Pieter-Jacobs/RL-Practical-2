@@ -21,7 +21,6 @@ void AgentQLearning::solveMaze() {
     uniform_real_distribution<double> dist(0,1);
     int steps = 0;
     for(int i = 0; i < episodes; i++) {
-        printQTable();
         cout << steps << "\n";
         steps = 0;
         cout << i << "\n";
@@ -50,9 +49,8 @@ void AgentQLearning::solveMaze() {
             move(move_);
             steps++;
         }
-        if(i%100 ==0 && i != 0) {
-            epsilon *= 0.95;
-        }
+        printQTable();
+        epsilon *= 0.95;
     }
 }
 
@@ -68,8 +66,8 @@ vector<int> AgentQLearning::getAvailableMoves(Field* state) {
 }
 
 void AgentQLearning::printQTable() {
-    for(int i=0;i<10;i++){
-        for(int j=0;j<10;j++){
+    for(int i=0;i<maze_->getHeight();i++){
+        for(int j=0;j<maze_->getWidth();j++){
             cout << "{";
             for(int k=0;k<4;k++){
                 cout << qTable[i][j][k] << ",";
@@ -96,17 +94,11 @@ int AgentQLearning::getQlearningMove(vector<int> availableMoves) {
 
 void AgentQLearning::updateQTable(array<int,2> prevCoordinates, int move) {
     // Q(s,a) <- Q(s,a) + a *(R + y*max(Q(s', a)) - Q(s,a))
-    Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates, move));
-    if(nextState->isTerminalState()) {
-        cout << "REACHED" << "\n";
-        qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
-        + 100 - qTable[prevCoordinates[0]][prevCoordinates[1]][move]);
-    } else {
-        qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
-        +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]);
-        // cout << "LOOK:" << alpha*(getReward(nextState)
-        // +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]) << "\n";
-    }
+    Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates, move)); 
+    // cout << alpha*(getReward(nextState)
+    // +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]) << "\n";
+    qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
+    +gamma*calculateFutureReward(nextState) - qTable[prevCoordinates[0]][prevCoordinates[1]][move]);
 }
 
 double AgentQLearning::getReward(Field* state) {
@@ -133,9 +125,9 @@ double AgentQLearning::calculateFutureReward(Field* nextState) {
     vector<int> availableMoves = getAvailableMoves(nextState);
     array<int,2> coordinates = nextState->getCoordinates();
     double reward;
-    double highestReward = qTable[coordinates[0]][coordinates[1]][0];
+    double highestReward = qTable[coordinates[0]][coordinates[1]][availableMoves[0]];
     for(int i = 1; i < availableMoves.size(); i++) {  
-        reward = qTable[coordinates[0]][coordinates[1]][i];
+        reward = qTable[coordinates[0]][coordinates[1]][availableMoves[i]];
         if(reward > highestReward) {
             highestReward = reward;
         }

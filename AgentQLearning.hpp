@@ -6,10 +6,10 @@ class AgentQLearning : public Agent
 {
 private:
     std::vector<std::vector<std::vector<double>>> qTable;
-    size_t episodes = 100;
+    size_t episodes = 10;
     double epsilon = 1;
     double gamma = 1;
-    double alpha = 0.8;
+    double alpha = 1;
     // /* data */
 public:
     AgentQLearning(/* args */);
