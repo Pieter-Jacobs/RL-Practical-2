@@ -21,5 +21,6 @@ class Maze
         size_t getWidth() const;
         size_t getHeight() const;
         void print();
-        void printActions();
+        void printActions();                            //Print the Q-values of each state-action pair
+        void resetActions();                            //Reset the Q-values of each state-action pair
 };

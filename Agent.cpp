@@ -17,7 +17,7 @@ Agent::~Agent()
 
 void Agent::printOptimalSteps()
 {
-    cout << "Optimal amount of steps:" << optimal << '\n';
+    cout << "Optimal amount of steps: " << optimal << '\n';
 }
 
 array<int,2> Agent::getUpdatedCoordinates(int move) {

@@ -28,7 +28,7 @@ array<double, 4> Field::getActions()
     return actions_;
 }
 
-void Field::printActions()
+void Field::printActions()                              //print all Q-values of this state
 {
     cout << '[';
     for (size_t i = 0; i < 4; ++i) {
@@ -37,7 +37,7 @@ void Field::printActions()
     cout << "]\n";
 }
 
-void Field::updateAction(int action, double value) 
+void Field::updateAction(int action, double value)      //Change the Q-value of the state-action pair
 {
     actions_[action] = value;
 }
@@ -67,7 +67,7 @@ Field::Field(array<int, 2> coordinates, size_t mazeWidth, size_t mazeHeight)
     // If the cell is in the bottom right of the maze, it is the terminal state.
     if(coordinates[0] == (mazeWidth-1) && coordinates[1] == (mazeHeight-1)) {
         terminalState = true;
-        reward = 0;
+        reward = 0;                                 //The reward of the terminal state is 0
     }
 }
 

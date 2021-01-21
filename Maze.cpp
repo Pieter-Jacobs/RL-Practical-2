@@ -38,43 +38,32 @@ Maze::~Maze()
 void Maze::print() {
     for(int i = 0; i < height_; i++) {
         for(int q = 0; q < width_; q++) {
-            //cout << "{";
+            cout << "{";
             for(int j = 0; j < getField({i,q})->getWalls().size(); j++) {
-                //cout << getField({i,q})->getWalls()[j];
-                //cout << ",";
+                cout << getField({i,q})->getWalls()[j];
+                cout << ",";
             }
-            //cout << "}";
-            //cout << "\n";
+            cout << "}";
+            cout << "\n";
         }
-    }/*
-    cout << "___________\n";
-    for (int i = 0; i < height_; i++) {
-        cout << '|';
-        for (int q = 0; q < width_; q++) {
-            int check = 0;
-            for (int j = 4; j != 0; j--) {
-                if (j == 2 && (getField({ i,q })->getWalls()[j] != 0 || i == height_ - 1)) {
-                    cout << "_";
-                    check = 1;
-                }
-                if (j == 1 && getField({ i,q })->getWalls()[j] != 0) {
-                    cout << "|";
-                    check = 1;
-                }
-            }
-            if (!check) {
-                cout << ' ';
-            }
-        }
-        cout << "|";
-        cout << "\n";
-    }*/
+    }
 }
 
-void Maze::printActions() {
+void Maze::printActions() {                         //print the list of Q-values
     for (int i = 0; i < height_; i++) {
         for (int q = 0; q < width_; q++) {
             getField({ i,q })->printActions();
+        }
+    }
+}
+
+void Maze::resetActions() {                         //Reset Q-values when the same maze has to be used more than once
+    for (int i = 0; i < height_; i++) {
+        for (int q = 0; q < width_; q++) {
+            Field* field = getField({ i,q });
+            for (int j = 0; j < 4; j++) {
+                field->updateAction(j, 0);
+            }
         }
     }
 }
