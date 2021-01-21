@@ -9,17 +9,14 @@
 
 class Agent
 {
-    private:
-        Field* currentField_;
+    protected: 
         Maze* maze_;
-        double score;
+        Field* currentField_;
     public:
         Agent();
         Agent(Maze* maze, Field* currentField);
-        ~Agent();
-        void DFS();
+        Maze* getMaze() const;
         std::array<int,2> getUpdatedCoordinates(int move);
-        void chooseMoveRandom(std::vector<int> possibleMoves);
+        std::array<int,2> getUpdatedCoordinates(std::array<int,2> coordinates, int move);
         void move(int move);
-        bool isOutOfBounds(std::array<int,2> coordinates);
 };

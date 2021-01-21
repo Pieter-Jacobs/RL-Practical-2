@@ -1,10 +1,12 @@
 #include "Agent.hpp"
 
-class AgentDFS : Agent
+class AgentDFS : public Agent
 {
 private:
-    /* data */
+    std::vector<Field*> visited;
 public:
-    AgentDFS(/* args */);
-    ~AgentDFS();
+    AgentDFS();
+    AgentDFS(Maze* maze, Field* currentField);
+    std::vector<int> getAvailableMoves();
+    void DFS();
 };
