@@ -104,6 +104,6 @@ bool Agent::isOutOfBounds(array<int,2> coordinates) {
 void Agent::move(int move)
 {
     array<int, 2> coordinates = getUpdatedCoordinates(move);   
-    cout << "moved to: " << coordinates[0] << " " << coordinates[1] << "\n";
+    // cout << "moved to: " << coordinates[0] << " " << coordinates[1] << "\n";
     currentField_ = maze_->getField(coordinates);
 }

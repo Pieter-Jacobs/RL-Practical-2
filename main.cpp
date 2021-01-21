@@ -8,5 +8,7 @@ int main() {
     Agent agent = Agent(maze, maze->getField({0,0}));
     agent.DFS();
     maze->print();
+    AgentQLearning agentQLearning = AgentQLearning(maze, maze->getField({0,0}));
+    agentQLearning.solveMaze();
     return 0;
 }
