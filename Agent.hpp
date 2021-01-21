@@ -12,11 +12,11 @@ class Agent
     protected: 
         Maze* maze_;
         Field* currentField_;
+        std::array<int,2> getUpdatedCoordinates(int move);
+        std::array<int,2> getUpdatedCoordinates(std::array<int,2> coordinates, int move);
+        Maze* getMaze() const;
+        void move(int move);
     public:
         Agent();
         Agent(Maze* maze, Field* currentField);
-        Maze* getMaze() const;
-        std::array<int,2> getUpdatedCoordinates(int move);
-        std::array<int,2> getUpdatedCoordinates(std::array<int,2> coordinates, int move);
-        void move(int move);
 };

@@ -11,16 +11,15 @@ private:
     double gamma = 1;
     double alpha = 1;
     // /* data */
+    void printQTable();
+    void updateQTable(std::array<int,2> prevCoordinates, int move);
+    int getQlearningMove(std::vector<int> availableMoves);
+    int getRandomMove(std::vector<int> availableMoves);
+    double getReward(Field* state);
+    double calculateFutureReward(Field* nextState);
+    std::vector<int> getAvailableMoves(Field* state);
 public:
     AgentQLearning(/* args */);
     AgentQLearning(Maze* maze, Field* currentField);
-    std::vector<int> determinePossibleMoves();
     void solveMaze();
-    void printQTable();
-    std::vector<int> getAvailableMoves(Field* state);
-    void updateQTable(std::array<int,2> prevCoordinates, int move);
-    double getReward(Field* state);
-    int getQlearningMove(std::vector<int> availableMoves);
-    double calculateFutureReward(Field* nextState);
-    int getRandomMove(std::vector<int> availableMoves);
 };
