@@ -27,11 +27,12 @@ void AgentSarsa::solveMaze() {
         while(!currentField_->isTerminalState()) {
             array<int,2> coordinates = currentField_->getCoordinates();
             int move_ = chooseAction(currentField_);
-            Field* newState = maze_->getField(getUpdatedCoordinates(coordinates,move));
-            getReward(newState);
-
+            updateQTable(coordinates,move_);
             //s=s'
             move(move_);
+        }
+        if(algorithm == 0) {
+            epsilon *= 0.95;
         }
     }
 }

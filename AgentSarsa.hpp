@@ -8,6 +8,6 @@ class AgentSarsa : public AgentTemporal
         int chooseAction(Field* state);
     public:
         AgentSarsa();
-        AgentSarsa(Maze* maze_, Field* currentfield, int algorithm);
+        AgentSarsa(Maze* maze_, Field* currentfield);
         void solveMaze();
 };
