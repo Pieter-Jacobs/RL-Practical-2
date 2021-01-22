@@ -26,7 +26,7 @@ void AgentSarsa::solveMaze() {
     for(int i = 0; i < episodes; i++){
         while(!currentField_->isTerminalState()) {
             array<int,2> coordinates = currentField_->getCoordinates();
-            int move_ = chooseAction();
+            int move_ = chooseAction(currentField_);
             Field* newState = maze_->getField(getUpdatedCoordinates(coordinates,move));
             getReward(newState);
 
@@ -36,16 +36,23 @@ void AgentSarsa::solveMaze() {
     }
 }
 
-int AgentSarsa::chooseAction() {
+int AgentSarsa::chooseAction(Field* state) {
     int move_; 
-	switch (algorithm_)
+	switch (algorithm)
 	{
 	case 0:
-		move_ = chooseActionEpsilon();
+		move_ = chooseActionEpsilonGreedy(state);
 		break;
 	case 1:
-		move_ = chooseActionBoltzmann();
+		move_ = chooseActionBoltzmann(state);
 		break;
 	}
     return move_;
+}
+
+void AgentSarsa::updateQTable(array<int,2> prevCoordinates, int move) {
+    Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates,move));
+    array<int,2> newCoordinates = nextState->getCoordinates();
+    qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
+    + gamma* - qTable[newCoordinates[0]][newCoordinates[1]][chooseAction(nextState)] - qTable[prevCoordinates[0]][prevCoordinates[1]][move])
 }

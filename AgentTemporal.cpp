@@ -50,6 +50,9 @@ int AgentTemporal::chooseActionBoltzmann(Field* state) {
     }
 
     double chance = d(g); 
+    if(chance == 0) {
+        chance += 0.001;
+    }
     double sum = 0;
     for(int i = 0; i < 4; i++){
         sum += probabilities[i];
