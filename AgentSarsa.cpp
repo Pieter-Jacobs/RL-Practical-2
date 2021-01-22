@@ -35,6 +35,7 @@ void AgentSarsa::solveMaze() {
             updateQTable(coordinates,move_);
             //s=s'
             move(move_);
+            steps++;
         }
         if(algorithm == 0) {
             epsilon *= 0.95;
