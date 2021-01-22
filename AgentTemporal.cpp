@@ -104,3 +104,18 @@ void AgentTemporal::printQTable() {
         cout << "\n";
     }
 }
+
+void AgentTemporal::saveResults(bool sarsa) {
+    ofstream file;
+    if (sarsa) {
+        file.open("dataSarsa.csv");
+    }
+    else {
+        file.open("dataQLearning.csv");
+    }
+    for (size_t i = 0; i != averageSteps.size(); ++i) {
+        file << i << ',';
+        file << averageSteps[i] << '\n';
+    }
+    file.close();
+}

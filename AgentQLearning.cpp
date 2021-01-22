@@ -24,7 +24,6 @@ void AgentQLearning::solveMaze() {
     int steps = 0;
     for(int i = 0; i < episodes; i++) {
         cout << steps << "\n";
-        steps = 0;
         cout << i << "\n";
         // set agent back to starting field
         currentField_ = maze_->getField({0,0});
@@ -40,9 +39,11 @@ void AgentQLearning::solveMaze() {
             move(move_);
             steps++;
         }
-        printQTable();
+        averageSteps.push_back((double)steps / (i + 1));
+        //printQTable();
         epsilon *= 0.95;
     }
+    saveResults(false);
 }
 
 double AgentQLearning::calculateFutureReward(Field* nextState) {

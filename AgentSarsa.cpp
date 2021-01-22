@@ -27,7 +27,6 @@ void AgentSarsa::solveMaze() {
         // set agent back to starting field
         currentField_ = maze_->getField({0,0});
         cout << steps << "\n";
-        steps = 0;
         cout << i << "\n";
         while(!currentField_->isTerminalState()) {
             array<int,2> coordinates = currentField_->getCoordinates();
@@ -37,13 +36,15 @@ void AgentSarsa::solveMaze() {
             move(move_);
             steps++;
         }
+        averageSteps.push_back((double)steps / (i + 1));
         if(algorithm == 0) {
             epsilon *= 0.95;
         } else if(algorithm == 1) {
             temprature *= 0.95;
         }
     }
-    printQTable();
+    saveResults(true);
+    //printQTable();
 }
 
 void AgentSarsa::updateQTable(array<int,2> prevCoordinates, int move) {

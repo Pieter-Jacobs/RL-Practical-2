@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
     srand(time(NULL));
-    Maze* maze = new Maze(11,11);
+    Maze* maze = new Maze(50,50);
     AgentDFS agentDFS = AgentDFS(maze, maze->getField({0,0}));
     agentDFS.DFS();
     maze->print();
