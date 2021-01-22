@@ -10,6 +10,10 @@ AgentQLearning::AgentQLearning(Maze* maze, Field* currentField)
     maze_ = maze;
     currentField_ = currentField;
 
+    mt19937 gen(1729);
+    uniform_real_distribution<double> dist(0,1);
+    g = gen;
+    d = dist;
     for(int i=0; i < maze_->getHeight(); i++) {
         vector<vector<double>> row(maze_->getWidth(),{{0,0,0,0}}); 
         qTable.push_back(row);
@@ -17,8 +21,6 @@ AgentQLearning::AgentQLearning(Maze* maze, Field* currentField)
 }
 
 void AgentQLearning::solveMaze() {
-    std::mt19937 gen(1729);
-    uniform_real_distribution<double> dist(0,1);
     int steps = 0;
     for(int i = 0; i < episodes; i++) {
         cout << steps << "\n";
@@ -40,20 +42,6 @@ void AgentQLearning::solveMaze() {
         }
         printQTable();
         epsilon *= 0.95;
-    }
-}
-
-
-void AgentQLearning::printQTable() {
-    for(int i=0;i<maze_->getHeight();i++){
-        for(int j=0;j<maze_->getWidth();j++){
-            cout << "{";
-            for(int k=0;k<4;k++){
-                cout << qTable[i][j][k] << ",";
-            }
-            cout << "}";
-        }
-        cout << "\n";
     }
 }
 

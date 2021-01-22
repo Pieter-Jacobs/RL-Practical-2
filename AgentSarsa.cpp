@@ -13,6 +13,12 @@ AgentSarsa::AgentSarsa(Maze* maze, Field* currentField){
     uniform_real_distribution<double> dist(0,1);
     g = gen;
     d = dist;
+
+    
+    for(int i=0; i < maze_->getHeight(); i++) {
+        vector<vector<double>> row(maze_->getWidth(),{{0,0,0,0}}); 
+        qTable.push_back(row);
+    }
 }
 
 void AgentSarsa::solveMaze() {

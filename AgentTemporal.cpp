@@ -28,6 +28,13 @@ int AgentTemporal::chooseActionEpsilonGreedy() {
     return getQLearningMove(getAvailableMoves(currentField_));
 }
 
+int AgentTemporal::chooseActionBoltzmann() {
+    vector<int> availableMoves = getAvailableMoves(currentField_);
+    for(int i = 0; i < availableMoves.size(); i++) {
+
+    }
+}
+
 int AgentTemporal::getQLearningMove(vector<int> availableMoves) {
     array<int,2> coordinates = currentField_->getCoordinates();
     double bestQ = qTable[coordinates[0]][coordinates[1]][availableMoves[0]];
@@ -41,4 +48,17 @@ int AgentTemporal::getQLearningMove(vector<int> availableMoves) {
     }
     // cout << "Q chosen: " << bestQ << "\n";
     return bestMove;
+}
+
+void AgentTemporal::printQTable() {
+    for(int i=0;i<maze_->getHeight();i++){
+        for(int j=0;j<maze_->getWidth();j++){
+            cout << "{";
+            for(int k=0;k<4;k++){
+                cout << qTable[i][j][k] << ",";
+            }
+            cout << "}";
+        }
+        cout << "\n";
+    }
 }
