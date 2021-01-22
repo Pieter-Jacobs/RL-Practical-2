@@ -34,7 +34,7 @@ void AgentQLearning::solveMaze() {
             vector<int> availableMoves = getAvailableMoves(currentField_);
             array<int,2> coordinates = currentField_->getCoordinates();
             int move_; 
-            move_ = chooseActionEpsilonGreedy(currentField_);
+            move_ = chooseAction(currentField_);
             //update the state action pair according to reward
             updateQTable(coordinates, move_);
             move(move_);

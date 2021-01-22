@@ -10,7 +10,7 @@ int main() {
     maze->print();
     AgentSarsa agentSarsa = AgentSarsa(maze, maze->getField({0,0}));
     agentSarsa.solveMaze();
-    // AgentQLearning agentQLearning = AgentQLearning(maze, maze->getField({0,0}));
-    // agentQLearning.solveMaze();
+    AgentQLearning agentQLearning = AgentQLearning(maze, maze->getField({0,0}));
+    agentQLearning.solveMaze();
     return 0;
 }
