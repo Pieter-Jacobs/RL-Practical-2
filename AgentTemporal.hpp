@@ -15,8 +15,8 @@ protected:
     int algorithm;
     int getRandomMove(std::vector<int> availableMoves);
     std::vector<int> getAvailableMoves(Field* state);
-    int chooseActionEpsilonGreedy();
-    int chooseActionBoltzmann();
+    int chooseActionEpsilonGreedy(Field* state);
+    int chooseActionBoltzmann(Field* state);
     int getQLearningMove(std::vector<int> availableMoves);
     void printQTable();
 public:

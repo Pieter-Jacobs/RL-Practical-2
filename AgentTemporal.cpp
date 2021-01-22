@@ -21,15 +21,15 @@ vector<int> AgentTemporal::getAvailableMoves(Field* state) {
     return availableMoves;
 }
 
-int AgentTemporal::chooseActionEpsilonGreedy() {
+int AgentTemporal::chooseActionEpsilonGreedy(Field* state) {
     if(d(g) <= epsilon) {
-        return getRandomMove(getAvailableMoves(currentField_));
+        return getRandomMove(getAvailableMoves(state));
     }
-    return getQLearningMove(getAvailableMoves(currentField_));
+    return getQLearningMove(getAvailableMoves(state));
 }
 
-int AgentTemporal::chooseActionBoltzmann() {
-    vector<int> availableMoves = getAvailableMoves(currentField_);
+int AgentTemporal::chooseActionBoltzmann(Field* state) {
+    vector<int> availableMoves = getAvailableMoves(state);
     for(int i = 0; i < availableMoves.size(); i++) {
 
     }
