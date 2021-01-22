@@ -1,10 +1,11 @@
-#include "Agent.hpp"
+#include "AgentTemporal.hpp"
 
-class AgentSarsa : public Agent 
+#pragma once; 
+class AgentSarsa : public AgentTemporal 
 {
     private:
-    
     public:
         AgentSarsa();
-        AgentSarsa(Maze* maze_, size_t episodeMax, size_t algorithm, double alpha);
+        AgentSarsa(Maze* maze_, Field* currentfield, int algorithm);
+        void solveMaze();
 }

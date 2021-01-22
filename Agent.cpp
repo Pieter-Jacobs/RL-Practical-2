@@ -45,6 +45,13 @@ Maze* Agent::getMaze() const {
     return maze_;
 }
 
+double Agent::getReward(Field* state) {
+    if(state->isTerminalState()) {
+        return 100;
+    }
+    return -1;
+}
+
 void Agent::move(int move)
 {
     array<int, 2> coordinates = getUpdatedCoordinates(move);   

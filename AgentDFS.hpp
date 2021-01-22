@@ -1,4 +1,5 @@
 #include "Agent.hpp"
+#pragma once
 
 class AgentDFS : public Agent
 {
