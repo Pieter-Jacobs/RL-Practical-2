@@ -39,23 +39,11 @@ void AgentSarsa::solveMaze() {
         }
         if(algorithm == 0) {
             epsilon *= 0.95;
+        } else if(algorithm == 1) {
+            temprature *= 0.95;
         }
     }
     printQTable();
-}
-
-int AgentSarsa::chooseAction(Field* state) {
-    int move_; 
-	switch (algorithm)
-	{
-	case 0:
-		move_ = chooseActionEpsilonGreedy(state);
-		break;
-	case 1:
-		move_ = chooseActionBoltzmann(state);
-		break;
-	}
-    return move_;
 }
 
 void AgentSarsa::updateQTable(array<int,2> prevCoordinates, int move) {

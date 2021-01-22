@@ -21,6 +21,20 @@ vector<int> AgentTemporal::getAvailableMoves(Field* state) {
     return availableMoves;
 }
 
+int AgentTemporal::chooseAction(Field* state) {
+    int move_; 
+	switch (algorithm)
+	{
+	case 0:
+		move_ = chooseActionEpsilonGreedy(state);
+		break;
+	case 1:
+		move_ = chooseActionBoltzmann(state);
+		break;
+	}
+    return move_;
+}
+
 int AgentTemporal::chooseActionEpsilonGreedy(Field* state) {
     if(d(g) <= epsilon) {
         return getRandomMove(getAvailableMoves(state));
