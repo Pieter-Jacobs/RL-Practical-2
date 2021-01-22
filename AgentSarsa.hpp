@@ -10,4 +10,4 @@ class AgentSarsa : public AgentTemporal
         AgentSarsa();
         AgentSarsa(Maze* maze_, Field* currentfield, int algorithm);
         void solveMaze();
-}
+};
