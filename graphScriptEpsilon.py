@@ -26,7 +26,7 @@ plt.plot(x1,y1, marker='o')
 plt.ticklabel_format(useOffset=False, style='plain')
 plt.legend(['Sarsa', 'Q-Learning'])
 
-plt.title('Q-Learning vs Sarsa: Epsilon-Greedy')
+plt.title('Q-Learning vs Sarsa: Epsilon-Greedy 50x50')
 
 plt.xlabel('Episodes')
 plt.ylabel('Average amount of steps')
