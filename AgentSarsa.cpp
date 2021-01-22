@@ -22,8 +22,11 @@ AgentSarsa::AgentSarsa(Maze* maze, Field* currentField){
 }
 
 void AgentSarsa::solveMaze() {
-
+    int steps = 0;
     for(int i = 0; i < episodes; i++){
+        cout << steps << "\n";
+        steps = 0;
+        cout << i << "\n";
         while(!currentField_->isTerminalState()) {
             array<int,2> coordinates = currentField_->getCoordinates();
             int move_ = chooseAction(currentField_);
@@ -35,6 +38,7 @@ void AgentSarsa::solveMaze() {
             epsilon *= 0.95;
         }
     }
+    printQTable();
 }
 
 int AgentSarsa::chooseAction(Field* state) {
