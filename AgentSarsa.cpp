@@ -6,9 +6,10 @@ AgentSarsa::AgentSarsa(){
 
 }
 
-AgentSarsa::AgentSarsa(Maze* maze, Field* currentField){
+AgentSarsa::AgentSarsa(Maze* maze, Field* currentField, int number){
     maze_ = maze;
     currentField_ = currentField_;
+    algorithm = number;
     mt19937 gen(1729);
     uniform_real_distribution<double> dist(0,1);
     g = gen;
@@ -26,8 +27,6 @@ void AgentSarsa::solveMaze() {
     for(int i = 0; i < episodes; i++){
         // set agent back to starting field
         currentField_ = maze_->getField({0,0});
-        cout << steps << "\n";
-        cout << i << "\n";
         while(!currentField_->isTerminalState()) {
             array<int,2> coordinates = currentField_->getCoordinates();
             int move_ = chooseAction(currentField_);

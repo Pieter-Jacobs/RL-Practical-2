@@ -16,7 +16,7 @@ protected:
     double alpha = 0.8;
     double gamma = 1;
     double temprature = 1.5;
-    int algorithm = 1;
+    int algorithm;
     std::vector<double> averageSteps;
     int getRandomMove(std::vector<int> availableMoves);
     std::vector<int> getAvailableMoves(Field* state);

@@ -8,6 +8,6 @@ class AgentSarsa : public AgentTemporal
         void updateQTable(std::array<int,2> prevCoordinates, int move);
     public:
         AgentSarsa();
-        AgentSarsa(Maze* maze_, Field* currentfield);
+        AgentSarsa(Maze* maze_, Field* currentfield, int number);
         void solveMaze();
 };

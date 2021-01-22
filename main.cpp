@@ -8,9 +8,13 @@ int main() {
     AgentDFS agentDFS = AgentDFS(maze, maze->getField({0,0}));
     agentDFS.DFS();
     maze->print();
-    AgentSarsa agentSarsa = AgentSarsa(maze, maze->getField({0,0}));
-    agentSarsa.solveMaze();
-    AgentQLearning agentQLearning = AgentQLearning(maze, maze->getField({0,0}));
-    agentQLearning.solveMaze();
+    AgentSarsa agentSarsaEpsilon = AgentSarsa(maze, maze->getField({0,0}), 0);
+    agentSarsaEpsilon.solveMaze();
+    AgentSarsa agentSarsaBernoulli = AgentSarsa(maze, maze->getField({ 0,0 }), 1);
+    agentSarsaBernoulli.solveMaze();
+    AgentQLearning agentQLearningSarsa = AgentQLearning(maze, maze->getField({0,0}), 0);
+    agentQLearningSarsa.solveMaze();
+    AgentQLearning agentQLearningBernoulli = AgentQLearning(maze, maze->getField({ 0,0 }), 1);
+    agentQLearningBernoulli.solveMaze();
     return 0;
 }

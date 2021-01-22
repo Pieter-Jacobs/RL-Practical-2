@@ -108,10 +108,16 @@ void AgentTemporal::printQTable() {
 void AgentTemporal::saveResults(bool sarsa) {
     ofstream file;
     if (sarsa) {
-        file.open("dataSarsa.csv");
+        if (algorithm == 0)
+            file.open("sarsaEpsilon.csv");
+        if (algorithm == 1)
+            file.open("sarsaBoltzmann.csv");
     }
     else {
-        file.open("dataQLearning.csv");
+        if (algorithm == 0)
+            file.open("qLearningEpsilon.csv");
+        if (algorithm == 1)
+            file.open("qLearningBoltzmann.csv");
     }
     for (size_t i = 0; i != averageSteps.size(); ++i) {
         file << i << ',';

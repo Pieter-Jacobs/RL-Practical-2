@@ -5,10 +5,11 @@ using namespace std;
 AgentQLearning::AgentQLearning() {
 }
 
-AgentQLearning::AgentQLearning(Maze* maze, Field* currentField)
+AgentQLearning::AgentQLearning(Maze* maze, Field* currentField, int number)
 {
     maze_ = maze;
     currentField_ = currentField;
+    algorithm = number;
 
     mt19937 gen(1729);
     uniform_real_distribution<double> dist(0,1);
@@ -23,8 +24,6 @@ AgentQLearning::AgentQLearning(Maze* maze, Field* currentField)
 void AgentQLearning::solveMaze() {
     int steps = 0;
     for(int i = 0; i < episodes; i++) {
-        cout << steps << "\n";
-        cout << i << "\n";
         // set agent back to starting field
         currentField_ = maze_->getField({0,0});
 

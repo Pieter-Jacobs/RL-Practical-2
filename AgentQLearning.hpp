@@ -10,6 +10,6 @@ private:
     double calculateFutureReward(Field* nextState);
 public:
     AgentQLearning(/* args */);
-    AgentQLearning(Maze* maze, Field* currentField);
+    AgentQLearning(Maze* maze, Field* currentField, int number);
     void solveMaze();
 };
