@@ -30,9 +30,34 @@ int AgentTemporal::chooseActionEpsilonGreedy(Field* state) {
 
 int AgentTemporal::chooseActionBoltzmann(Field* state) {
     vector<int> availableMoves = getAvailableMoves(state);
-    for(int i = 0; i < availableMoves.size(); i++) {
-
+    array<int,2> coordinates = state->getCoordinates();
+    array<double,4> probabilities = {0,0,0,0};
+    double denominator = 0;
+    double highestValue = qTable[coordinates[0]][coordinates[1]][availableMoves[0]]/temprature;
+    for(int i = 1; i < availableMoves.size(); i++) {
+        if(qTable[coordinates[0]][coordinates[1]][availableMoves[i]]/temprature > highestValue) {
+            highestValue = qTable[coordinates[0]][coordinates[1]][availableMoves[i]]/temprature;
+        }
     }
+    for(int i = 0; i < availableMoves.size(); i++) {
+        denominator += exp((qTable[coordinates[0]][coordinates[1]][availableMoves[i]]/temprature)
+        - highestValue - 1);
+    }
+    for(int i = 0; i < availableMoves.size(); i++) {
+        double numerator = exp((qTable[coordinates[0]][coordinates[1]][availableMoves[i]]/temprature)
+        - highestValue - 1);
+        probabilities[availableMoves[i]] = numerator/denominator;
+    }
+
+    double chance = d(g); 
+    double sum = 0;
+    for(int i = 0; i < 4; i++){
+        sum += probabilities[i];
+        if(chance <= sum) {
+            return i;
+        }
+    }
+    return NULL;
 }
 
 int AgentTemporal::getQLearningMove(vector<int> availableMoves) {
