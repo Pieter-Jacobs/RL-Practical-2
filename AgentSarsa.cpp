@@ -24,6 +24,8 @@ AgentSarsa::AgentSarsa(Maze* maze, Field* currentField){
 void AgentSarsa::solveMaze() {
     int steps = 0;
     for(int i = 0; i < episodes; i++){
+        // set agent back to starting field
+        currentField_ = maze_->getField({0,0});
         cout << steps << "\n";
         steps = 0;
         cout << i << "\n";
@@ -59,5 +61,5 @@ void AgentSarsa::updateQTable(array<int,2> prevCoordinates, int move) {
     Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates,move));
     array<int,2> newCoordinates = nextState->getCoordinates();
     qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
-    + gamma* qTable[newCoordinates[0]][newCoordinates[1]][chooseAction(nextState)] - qTable[prevCoordinates[0]][prevCoordinates[1]][move])
+    + gamma* qTable[newCoordinates[0]][newCoordinates[1]][chooseAction(nextState)] - qTable[prevCoordinates[0]][prevCoordinates[1]][move]);
 }

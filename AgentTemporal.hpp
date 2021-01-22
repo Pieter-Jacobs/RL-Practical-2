@@ -1,5 +1,7 @@
 #include "Agent.hpp"
 
+#pragma once
+
 class AgentTemporal : public Agent
 {
 protected:
