@@ -59,5 +59,5 @@ void AgentSarsa::updateQTable(array<int,2> prevCoordinates, int move) {
     Field* nextState = maze_->getField(getUpdatedCoordinates(prevCoordinates,move));
     array<int,2> newCoordinates = nextState->getCoordinates();
     qTable[prevCoordinates[0]][prevCoordinates[1]][move] += alpha*(getReward(nextState)
-    + gamma* - qTable[newCoordinates[0]][newCoordinates[1]][chooseAction(nextState)] - qTable[prevCoordinates[0]][prevCoordinates[1]][move])
+    + gamma* qTable[newCoordinates[0]][newCoordinates[1]][chooseAction(nextState)] - qTable[prevCoordinates[0]][prevCoordinates[1]][move])
 }
